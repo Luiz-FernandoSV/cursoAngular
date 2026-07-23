@@ -1,0 +1,11 @@
+binding
+    - property bindings
+    - 2 way data binding
+interpolação
+diretivas estruturais (ngFor)
+requisições http (get)
+bootstrap
+migrations
+contexts
+sqlite
+requisições pro c#
