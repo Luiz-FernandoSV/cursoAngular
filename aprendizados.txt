@@ -9,3 +9,14 @@ migrations
 contexts
 sqlite
 requisições pro c#
+
+- perguntar as versões usadas
+- instalar os sdk e angular antigos
+- perguntar se hoje eu levo o note
+
+coisas baixadas
+- dotnet 5
+- angular 11.1.4
+- npm 6
+- node 14
+- nvm C:\Users\DEV06\AppData\Local\nvm
