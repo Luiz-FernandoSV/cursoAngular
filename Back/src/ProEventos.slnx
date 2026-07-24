@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ProEventos.API/ProEventos.API.csproj" />
+  <Project Path="ProEventos.Application/ProEventos.Application.csproj" />
+  <Project Path="ProEventos.Domain/ProEventos.Domain.csproj" />
+  <Project Path="ProEventos.Persistence/ProEventos.Persistence.csproj" />
+  
+</Solution>
