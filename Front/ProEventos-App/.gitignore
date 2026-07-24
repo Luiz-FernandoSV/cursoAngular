@@ -24,3 +24,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+#Excluindo DB
+*.db
+*.db-shm
+*.db-wal
