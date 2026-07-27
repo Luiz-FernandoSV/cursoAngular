@@ -31,7 +31,7 @@ namespace ProEventos.Persistence
                 .ThenInclude(pe => pe.EventoId);
             }
 
-            query = query
+            query = query.AsNoTracking()
             .OrderBy(p => p.Id)
             .Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
 
@@ -45,7 +45,7 @@ namespace ProEventos.Persistence
 
             if (includeEventos)
             {
-                query = query
+                query = query.AsNoTracking()
                 .Include(e => e.PalestranteEventos)
                 .ThenInclude(pe => pe.Evento);
             }
@@ -62,7 +62,7 @@ namespace ProEventos.Persistence
 
             if (includeEventos)
             {
-                query = query
+                query = query.AsNoTracking()
                 .Include(e => e.PalestranteEventos)
                 .ThenInclude(pe => pe.EventoId);
             }

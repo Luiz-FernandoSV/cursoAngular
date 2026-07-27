@@ -20,7 +20,13 @@ namespace ProEventos.Persistence.Contextos
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // especifica quais os ids externos que existem dentro do palestrante eventos que vao criar a relação entre os 2
             modelBuilder.Entity<PalestranteEvento>().HasKey(PE => new {PE.EventoId, PE.PalestranteId});
+
+            // configuração de delete cascade
+            // diz para o model builder que há uma entidade que contém N outras entidades e cada uma delas só pertence a 1 (relação 1 - N)
+            modelBuilder.Entity<Evento>().HasMany(e => e.RedesSociais).WithOne(rs => rs.Evento).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Palestrante>().HasMany(p => p.RedesSociais).WithOne(rs => rs.Palestrante).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -82,7 +82,7 @@ namespace ProEventos.API.Controllers
             } 
         }
 
-        [HttpPut("{nome}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Evento model)
         {
             try
