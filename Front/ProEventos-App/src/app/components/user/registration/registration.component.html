@@ -12,7 +12,7 @@
   </div>
 
   <div class="col-md-6">
-    <form class="p-1">
+    <form [formGroup]="form" class="p-1">
       <div class="pb-2 d-block d-md-none">
         <h3 class="border-bottom">Cadastro de Usuário</h3>
       </div>
@@ -21,34 +21,62 @@
           <label>Primeiro Nome</label>
           <input
             type="text"
+            [ngClass]="{
+              'is-invalid': f.primeiroNome.errors && f.primeiroNome.touched
+            }"
             class="form-control"
+            formControlName="primeiroNome"
             placeholder="Insira o Primeiro nome"
           />
+          <div *ngIf="f.primeiroNome.errors?.required" class="invalid-feedback">Primeiro nome é obrigatório</div>
         </div>
         <div class="form-group col-sm-6">
           <label>Último nome</label>
           <input
             type="text"
             class="form-control"
+            [ngClass]="{
+              'is-invalid': f.ultimoNome.errors && f.ultimoNome.touched
+            }"
+            formControlName="ultimoNome"
             placeholder="Insira o Último nome"
           />
+          <div *ngIf="f.ultimoNome.errors?.required" class="invalid-feedback">Último nome é obrigatório</div>
         </div>
       </div>
       <div class="form-group">
         <label for="">Email:</label>
         <input
           class="form-control"
+          [ngClass]="{
+            'is-invalid': f.email.errors && f.email.touched
+          }"
+          formControlName="email"
           type="text"
-          placeholder="Insira o Nome Completo"
+          placeholder="Insira o email"
         />
+        <div *ngIf="f.email.errors?.required" class="invalid-feedback">
+          Email é obrigatório
+        </div>
+        <div *ngIf="f.email.errors?.email" class="invalid-feedback">
+          Deve ser um endereço de email válido
+        </div>
       </div>
       <div class="form-group">
         <label for="">Usuario:</label>
+
         <input
           class="form-control"
+          [ngClass]="{
+            'is-invalid': f.username.errors && f.username.touched
+          }"
+          formControlName="username"
           type="text"
           placeholder="Insira o nome de Usuário"
         />
+        <div *ngIf="f.username.errors?.required" class="invalid-feedback">
+          Username é obrigatório
+        </div>
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
@@ -56,16 +84,36 @@
           <input
             class="form-control"
             type="password"
+            [ngClass]="{
+              'is-invalid': f.senha.errors && f.senha.touched
+            }"
             placeholder="Digite uma Senha"
+            formControlName="senha"
           />
+          <div *ngIf="f.senha.errors?.required" class="invalid-feedback">
+          Senha é obrigatória
+        </div>
+        <div *ngIf="f.senha.errors?.minlength" class="invalid-feedback">
+          Senha precisa ter no mínimo 6 caracteres
+        </div>
         </div>
         <div class="form-group col-sm-6">
           <label for="">Confirmar Senha:</label>
           <input
             class="form-control"
             type="password"
+            [ngClass]="{
+              'is-invalid': f.confirmeSenha.errors && f.confirmeSenha.touched
+            }"
             placeholder="Confirme a Senha"
+            formControlName="confirmeSenha"
           />
+          <div *ngIf="f.confirmeSenha.errors?.required" class="invalid-feedback">
+          Confirme a senha
+        </div>
+        <div *ngIf="f.confirmeSenha.errors?.mustMatch" class="invalid-feedback">
+          As senhas devem ser iguais
+        </div>
         </div>
       </div>
       <div class="form-row p-1 mb-3">
@@ -89,7 +137,9 @@
       </div>
       <div class="form-row">
         <div class="form-group col-12">
-          <a class="btn btn-link btn-block" routerLink="/user/login"> Já sou Cadastrado </a>
+          <a class="btn btn-link btn-block" routerLink="/user/login">
+            Já sou Cadastrado
+          </a>
         </div>
       </div>
     </form>
