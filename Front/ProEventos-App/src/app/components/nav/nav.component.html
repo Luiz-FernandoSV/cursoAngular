@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm" *ngIf="showMenu()">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="dashboard">Navbar</a>
+    <a class="navbar-brand" routerLink="dashboard">
+      <i class="fa fa-users mb-2"></i>
+    </a>
 
     <button
       class="navbar-toggler"
@@ -17,7 +19,7 @@
     >
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="eventos">Eventos</a>
+          <a class="nav-link" routerLink="eventos/lista">Eventos</a>
         </li>
 
         <li class="nav-item" routerLinkActive="active">
@@ -45,9 +47,9 @@
             class="dropdown-menu"
             aria-labelledby="navbarDropdownMenuLink"
           >
-            <a class="dropdown-item" routerLink="perfil"> Perfil </a>
+            <a class="dropdown-item" routerLink="user/perfil"> Perfil </a>
             <div role="separator" class="divider"></div>
-            <a class="dropdown-item" href="#"> Sair </a>
+            <a class="dropdown-item" routerLink="user/login"> Sair </a>
           </div>
         </li>
       </ul>
