@@ -1,11 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProEventos.Domain.Models
 {
+    // [Table("EventosDetalhes")] = altera a referencia do nome na tabela do banco de dados
+    // EventosDetalhes = nome da tabela no banco 
+    // Evento = classe usada no c#
     public class Evento
     {
+        // diz que é uma chave [Key]
         public int Id { get; set; }
         public string Local { get; set; }
         public DateTime? DataEvento { get; set; }
