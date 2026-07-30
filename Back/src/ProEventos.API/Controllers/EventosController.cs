@@ -43,7 +43,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var evento = await _eventoService.GetEventosByIdAsync(id, true);
+                var evento = await _eventoService.getEventoByIdAsync(id, true);
                 if (evento == null) return NoContent();
 
                 return Ok(evento);
@@ -107,10 +107,10 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var evento = await _eventoService.GetEventosByIdAsync(id, true);
+                var evento = await _eventoService.getEventoByIdAsync(id, true);
                 if (evento == null) return NoContent();
 
-                return await _eventoService.DeleteEvento(id) ? Ok("Deletado") : throw new Exception("Ocorreu um erro não específico ao tentar deletar evento");
+                return await _eventoService.DeleteEvento(id) ? Ok(new {message = "Deletado"}) : throw new Exception("Ocorreu um erro não específico ao tentar deletar evento");
                 
             }
             catch (Exception ex)

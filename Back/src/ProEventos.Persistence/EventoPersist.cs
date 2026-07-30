@@ -57,7 +57,7 @@ namespace ProEventos.Persistence
 
             return await query.ToArrayAsync();
         }
-        public async Task<Evento> GetEventosByIdAsync(int eventoId, bool includePalestrantes = false)
+        public async Task<Evento> getEventoByIdAsync(int eventoId, bool includePalestrantes = false)
         {
             IQueryable<Evento> query = _context.Eventos
             .Include(e => e.Lotes)
