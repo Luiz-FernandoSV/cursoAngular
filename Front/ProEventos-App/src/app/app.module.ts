@@ -33,6 +33,7 @@ import { EventoListaComponent } from './components/eventos/evento-lista/evento-l
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { LoteService } from './services/lote.service';
 
 defineLocale('pt-br',ptBrLocale)
 
@@ -71,11 +72,13 @@ defineLocale('pt-br',ptBrLocale)
       progressBar: true
     }),
     NgxSpinnerModule,
-    BsDatepickerModule.forRoot()
-
+    BsDatepickerModule.forRoot(),
   ],
   // caso seja adicionado no providers do app.module, sera aplicado pra todos os componentes
-  providers: [EventoService],
+  providers: [
+    EventoService,
+    LoteService
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
