@@ -21,7 +21,6 @@ namespace ProEventos.Application.Dtos
             Display(Name = "Qtd Pessoas")
         ]
         public int QtdPessoas { get; set; }
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [RegularExpression(@".*\.(gif|jpe?g|bmp|png)$",ErrorMessage = "Não é uma imagem válida. (gif,jpg,jpeg,bmp ou png)")]
         public string ImagemURL { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório"),Phone(ErrorMessage = "O campo {0} está com número inválido")]

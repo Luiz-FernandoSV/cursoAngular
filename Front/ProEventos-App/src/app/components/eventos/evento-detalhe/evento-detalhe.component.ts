@@ -12,6 +12,7 @@ import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
 import { EventoService } from '@app/services/evento.service';
 import { LoteService } from '@app/services/lote.service';
+import { environment } from '@environments/environment';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -29,6 +30,12 @@ export class EventoDetalheComponent implements OnInit {
   estadoSalvar: string = 'post'; // inicia com o modo de post
   modalRef : BsModalRef;
   loteAtual = {id:0,nome:'',indice:0};
+  imagemURL = 'assets/img/uploadCloud.png';
+  file:File;
+
+  get imageURL() : string {
+    return this.imageURL;
+  }
 
   get modoEditar() : boolean{
     return this.estadoSalvar === 'put';
@@ -73,26 +80,24 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public validation(): void {
-    this.form = this.fb.group({
-      // 1º parametro = valor base (formState / estado inicial)
-      // 2º parametro = validator
-      tema: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(50),
-        ],
-      ],
-      local: ['', Validators.required],
-      dataEvento: ['', Validators.required],
-      qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
-      telefone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      imagemURL: ['', Validators.required],
-      lotes: this.fb.array([])
-    });
-  }
+  this.form = this.fb.group({
+    tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    local: ['', Validators.required],
+    dataEvento: ['', Validators.required],
+    qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
+    telefone: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    imagemURL: [''],
+    lotes: this.fb.array([])
+  });
+
+  this.form.valueChanges.subscribe(value => {
+    this.evento = {
+      ...this.evento,
+      ...value
+    };
+  });
+}
 
   adicionarLote(): void {
     this.lotes.push(this.criarLote({id: 0} as Lote));
@@ -132,6 +137,11 @@ export class EventoDetalheComponent implements OnInit {
         (evento: Evento) => {
           this.evento = { ...evento }; // copia os dados do evento retornado para o evento do componente (eventoRetorno -> this.evento)
           this.form.patchValue(this.evento); // copia os dados do evento retornado para os campos do form
+          if(this.evento.imagemURL !== '' && this.evento.imagemURL !== null){
+            this.imagemURL = `${environment.apiURL}resources/images/${this.evento.imagemURL}`;
+          }else{
+            this.imagemURL = 'assets/img/uploadCloud.png';
+          }
           this.carregarLotes(); // método que faz uma requisição ao banco para buscar os lotes do evento
           /*
           Forma reduzida da função acima
@@ -177,7 +187,7 @@ export class EventoDetalheComponent implements OnInit {
       this.eventoService[this.estadoSalvar](this.evento)
         .subscribe(
           (eventoRetorno : Evento) => {
-            this.toastr.success('Evento salvo com sucesso', 'Sucesso')
+            this.toastr.success('Evento salvo com sucesso', 'Sucesso');
             // redireciona paga a mesma página levando o id do evento recem criado
             this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`])
           },
@@ -236,5 +246,29 @@ export class EventoDetalheComponent implements OnInit {
 
   declineDeleteLote() : void {
     this.modalRef.hide();
+  }
+
+  onFileChange(event:any) : void {
+    const reader = new FileReader();
+
+    reader.onload = (ev: any) => this.imagemURL = ev.target.result;
+
+    this.file = event.target.files;
+    reader.readAsDataURL(this.file[0]);
+    this.uploadImage();
+  }
+
+  uploadImage() : void {
+    this.spinner.show();
+    this.eventoService.postUpload(this.eventoId,this.file).subscribe(
+      () => {
+        this.carregarEvento();
+        this.toastr.success('Imagem carregada com sucesso','Sucesso');
+      },
+      (error : any) => {
+        this.toastr.error('Erro ao tentar carregar a imagem','Erro');
+        console.log(error);
+      }
+    ).add(() => this.spinner.hide());
   }
 }
