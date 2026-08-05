@@ -31,6 +31,8 @@ namespace ProEventos.Application.Dtos
             EmailAddress(ErrorMessage =("Deve ser um endereço de {0} válido")),
         ]
         public string Email { get; set; }
+        public int UserId { get; set; }
+        public UserDto User { get; set; }
         public IEnumerable<LoteDto> Lotes { get; set; }
         public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
         public IEnumerable<PalestranteDto> Palestrantes { get; set; }
