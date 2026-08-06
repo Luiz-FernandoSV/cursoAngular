@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Evento } from '../models/Evento';
 import { take } from 'rxjs/operators';
 import { environment } from '@environments/environment';
+import { AccountService } from './Account.service';
 
 @Injectable(
  // pode ser adicionado o injetor aqui tambem
@@ -12,7 +13,7 @@ import { environment } from '@environments/environment';
 export class EventoService {
   baseUrl = environment.apiURL + 'api/Eventos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private accountService : AccountService) {}
 
   public getEventos() : Observable<Evento[]> {
     // take chama a função somente a quantidade de vezes especificada no (), depois se desinscreve do observable;

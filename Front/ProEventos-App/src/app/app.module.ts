@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse'
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -25,7 +25,7 @@ import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { ContatosComponent } from './components/contatos/contatos.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
-import { NavComponent } from './components/nav/nav.component';
+import { NavComponent } from './shared/nav/nav.component';
 
 import { EventoService } from './services/evento.service';
 import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
@@ -34,6 +34,9 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { LoteService } from './services/lote.service';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AccountService } from './services/Account.service';
+import { HomeComponent } from './components/home/home.component';
 
 defineLocale('pt-br',ptBrLocale)
 
@@ -53,6 +56,7 @@ defineLocale('pt-br',ptBrLocale)
     UserComponent,
     LoginComponent,
     RegistrationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +81,9 @@ defineLocale('pt-br',ptBrLocale)
   // caso seja adicionado no providers do app.module, sera aplicado pra todos os componentes
   providers: [
     EventoService,
-    LoteService
+    LoteService,
+    AccountService,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
