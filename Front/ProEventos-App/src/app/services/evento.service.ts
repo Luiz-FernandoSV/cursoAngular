@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { observable, Observable } from 'rxjs';
 import { Evento } from '../models/Evento';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { AccountService } from './Account.service';
+import { PaginatedResult } from '@app/models/Pagination';
 
 @Injectable(
  // pode ser adicionado o injetor aqui tambem
@@ -15,14 +16,33 @@ export class EventoService {
 
   constructor(private http: HttpClient, private accountService : AccountService) {}
 
-  public getEventos() : Observable<Evento[]> {
+  public getEventos(page?: number,itemsPerPage?: number, term?: string) : Observable<PaginatedResult<Evento[]>> {
+    const paginatedResult : PaginatedResult<Evento[]> = new PaginatedResult<Evento[]>();
+
+    let params = new HttpParams;
+    if(page != null && itemsPerPage != null){
+      params = params.append('pageNumber',page.toString());
+      params = params.append('pageSize',itemsPerPage.toString());
+    }
+
+    if(term != null && term !== '') params = params.append('term',term);
+
     // take chama a função somente a quantidade de vezes especificada no (), depois se desinscreve do observable;
-    return this.http.get<Evento[]>(this.baseUrl).pipe(take(1))
+    return this.http
+               .get<Evento[]>(this.baseUrl,{observe: 'response',params})
+               .pipe(
+                take(1), map((response) => {
+                  paginatedResult.result = response.body;
+                  if(response.headers.has('Pagination')){
+                    paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+                  }
+                  return paginatedResult;
+                }))
   }
 
-  public getEventosByTema(tema : string) : Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseUrl}/${tema}/tema`).pipe(take(1));
-  }
+  // public getEventosByTema(tema : string) : Observable<Evento[]> {
+  //   return this.http.get<Evento[]>(`${this.baseUrl}/${tema}/tema`).pipe(take(1));
+  // }
 
   public getEventoById(id : number) : Observable<Evento> {
     return this.http.get<Evento>(`${this.baseUrl}/${id}`).pipe(take(1));

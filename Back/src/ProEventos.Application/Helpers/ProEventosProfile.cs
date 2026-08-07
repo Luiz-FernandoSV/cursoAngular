@@ -2,6 +2,8 @@ using AutoMapper;
 using ProEventos.Domain.Models;
 using ProEventos.Application.Dtos;
 using ProEventos.Domain.Identity;
+using System.Collections.Generic;
+using ProEventos.Persistence.Models;
 
 namespace ProEventos.API.Helpers
 {

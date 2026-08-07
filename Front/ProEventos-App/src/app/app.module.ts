@@ -9,6 +9,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
@@ -77,6 +78,7 @@ defineLocale('pt-br',ptBrLocale)
     }),
     NgxSpinnerModule,
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   // caso seja adicionado no providers do app.module, sera aplicado pra todos os componentes
   providers: [
